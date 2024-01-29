@@ -1,5 +1,6 @@
 import argparse
 import subprocess
+import json
 
 def authenticate_service_account(json_file_path, key_file_path):
     try:
@@ -16,9 +17,9 @@ def authenticate_service_account(json_file_path, key_file_path):
     except Exception as e:
         print(f"Failed to authenticate: {str(e)}")
 
-def test_resource_access(resource_type, command, output_file):
+def test_resource_access(resource_type, command, output_file, timeout_seconds):
     try:
-        result = subprocess.run(command, shell=True, check=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        result = subprocess.run(command, shell=True, check=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, timeout=timeout_seconds)
         if result.returncode == 0:
             access_status = f"{resource_type} access granted"
         else:
@@ -27,12 +28,14 @@ def test_resource_access(resource_type, command, output_file):
         # Print the access status directly and save the full output to the specified file
         print(access_status)
         with open(output_file, "a") as file:
-            file.write(access_status + "\n")
+            file.write(f"{access_status}\n")
             file.write(result.stdout)
             file.write("\n")
             file.write(result.stderr)
             file.write("\n")
 
+    except subprocess.TimeoutExpired:
+        print(f"{resource_type} test timed out after {timeout_seconds} seconds")
     except Exception as e:
         print(f"Failed to test {resource_type} access: {str(e)}")
 
@@ -40,6 +43,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Authenticate and test GCP resource access")
     parser.add_argument("-f", "--file", required=True, help="Path to the JSON key file")
     parser.add_argument("-o", "--output", required=True, help="Path to the output file")
+    parser.add_argument("-t", "--timeout", type=int, default=30, help="Timeout in seconds (default: 30)")
     args = parser.parse_args()
 
     # Clear the content of the output file
@@ -78,4 +82,4 @@ if __name__ == "__main__":
     }
 
     for resource_type, command in resource_commands.items():
-        test_resource_access(resource_type, command, args.output)
+        test_resource_access(resource_type, command, args.output, args.timeout)
