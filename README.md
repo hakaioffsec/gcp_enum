@@ -4,7 +4,7 @@ This Python script simplifies authentication and resource listing in Google Clou
 It automates the process of authenticating GCP service accounts using JSON key files and provides a convenient way to list various GCP resources.
 
 # How to use
-Pass the json service account key file with the -f flag and the output file with the -o flag.
+Pass the json service account key file with the -f flag and the output file with the -o flag, the -t flag is used for timeout, the default is 30 seconds.
 ```
 python3 gcp_enum.py -f file.json -o output.txt
 ```
@@ -41,3 +41,6 @@ The list of tests that are performed
 "Secrets": "gcloud secrets list",
 "Cloud KMS Keyrings": "gcloud kms keyrings list",
 ```
+# Example
+![Screenshot_15](https://github.com/b-hermes/gcp_enum/assets/39487743/78806648-4075-4c0e-85ca-2bc5f640090f)
+
