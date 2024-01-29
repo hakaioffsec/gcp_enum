@@ -44,3 +44,5 @@ The list of tests that are performed
 # Example
 ![Screenshot_15](https://github.com/b-hermes/gcp_enum/assets/39487743/78806648-4075-4c0e-85ca-2bc5f640090f)
 
+# References
+While developing the tool I found [this](https://gitlab.com/gitlab-com/gl-security/threatmanagement/redteam/redteam-public/gcp_enum) script from [Chris Moberly](https://www.linkedin.com/in/chrismoberly) and I realized that I had some tests that I missed to add. 
