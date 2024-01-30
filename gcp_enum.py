@@ -1,21 +1,30 @@
 import argparse
 import subprocess
-import json
 
-def authenticate_service_account(json_file_path, key_file_path):
+def list_service_accounts():
     try:
-        if not key_file_path:
-            raise ValueError("Key file path not provided.")
+        # Run 'gcloud auth list' to list available accounts
+        command = "gcloud auth list --format='value(account)'"
+        result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
         
-        # Authenticate the service account using the provided key file
-        command = f"gcloud auth activate-service-account --key-file={key_file_path}"
-        subprocess.run(command, shell=True, check=True)
-        print("Authentication successful.")
+        # Extract and print available service accounts
+        accounts = result.stdout.strip().split('\n')
+        print("Available service accounts:")
+        for account in accounts:
+            print(account)
 
-    except ValueError as ve:
-        print(f"Failed to authenticate: {str(ve)}")
     except Exception as e:
-        print(f"Failed to authenticate: {str(e)}")
+        print(f"Failed to list service accounts: {str(e)}")
+
+def switch_service_account(account):
+    try:
+        # Switch to the specified service account
+        command = f"gcloud config set account {account}"
+        subprocess.run(command, shell=True, check=True)
+        print(f"Switched to service account: {account}")
+
+    except Exception as e:
+        print(f"Failed to switch service account: {str(e)}")
 
 def test_resource_access(resource_type, command, output_file, timeout_seconds):
     try:
@@ -41,17 +50,38 @@ def test_resource_access(resource_type, command, output_file, timeout_seconds):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Authenticate and test GCP resource access")
-    parser.add_argument("-f", "--file", required=True, help="Path to the JSON key file")
-    parser.add_argument("-o", "--output", required=True, help="Path to the output file")
+    parser.add_argument("-l", "--list-accounts", action="store_true", help="List available service accounts and exit")
+    parser.add_argument("-s", "--service-account", help="Switch to the specified service account and run tests")
+    parser.add_argument("-f", "--file", help="Path to the JSON key file")
+    parser.add_argument("-o", "--output", help="Path to the output file")
     parser.add_argument("-t", "--timeout", type=int, default=30, help="Timeout in seconds (default: 30)")
     args = parser.parse_args()
 
-    # Clear the content of the output file
-    with open(args.output, "w") as file:
-        file.write("")
+    if args.list_accounts:
+        list_service_accounts()
+        exit()
 
-    # Authenticate using the provided JSON key file
-    authenticate_service_account(args.file, args.file)
+    if args.service_account:
+        # Switch to the specified service account
+        switch_service_account(args.service_account)
+    elif args.file:
+        # Authenticate using the provided JSON key file
+        try:
+            # Authenticate the service account using the provided key file
+            command = f"gcloud auth activate-service-account --key-file={args.file}"
+            subprocess.run(command, shell=True, check=True)
+            print("Authentication successful.")
+        except Exception as e:
+            print(f"Failed to authenticate: {str(e)}")
+            exit()
+    else:
+        print("Please specify a service account or provide a JSON key file.")
+        exit()
+
+    if args.output:
+        # Clear the content of the output file if provided
+        with open(args.output, "w") as file:
+            file.write("")
 
     # Test GCP resource access and save the results
     resource_commands = {
