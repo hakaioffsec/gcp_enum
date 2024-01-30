@@ -3,18 +3,17 @@ This Python script simplifies authentication and resource listing in Google Clou
 
 It automates the process of authenticating GCP service accounts using JSON key files and provides a convenient way to list various GCP resources.
 
-# How to use
-Pass the json service account key file with the -f flag and the output file with the -o flag, the -t flag is used for timeout, the default is 30 seconds.
+# Usage
+Make sure you have the Google Cloud SDK installed, as the tool utilizes the `gcloud`, `gsutil`, and `bq` commands.
+
+Pass the JSON service account key file with the -f flag and specify the output file with the -o flag. Optionally, you can set the timeout in seconds with the -t flag (default is 30 seconds).
 ```
 python3 gcp_enum.py -f file.json -o output.txt
 ```
 
-You need to have the Google Cloud SDK installed. 
-
-The tool use the 'gcloud', 'gsutil' and 'bq' commands.
 
 # Tests
-The list of tests that are performed
+The script performs various tests to list GCP resources, including:
 ```
 "Cloud Storage Buckets": "gsutil ls",
 "Pub/Sub topics": "gcloud pubsub topics list",
