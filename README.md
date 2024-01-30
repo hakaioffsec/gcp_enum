@@ -18,6 +18,19 @@ To switch to a specific service account and run tests, use the following command
 ```
 python3 gcp_enum.py -s <service_account_email> -o <output_file>
 ```
+All options:
+```
+options:
+  -h, --help            show this help message and exit
+  -l, --list-accounts   List available service accounts and exit
+  -s SERVICE_ACCOUNT, --service-account SERVICE_ACCOUNT
+                        Switch to the specified service account and run tests
+  -f FILE, --file FILE  Path to the JSON key file
+  -o OUTPUT, --output OUTPUT
+                        Path to the output file
+  -t TIMEOUT, --timeout TIMEOUT
+                        Timeout in seconds (default: 30)
+```
 
 # Tests
 The script performs various tests to list GCP resources, including:
