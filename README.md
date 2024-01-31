@@ -61,7 +61,7 @@ The script performs various tests to list GCP resources, including:
     Cloud KMS Keyrings
 ```
 # Examples
-![Screenshot_15](https://github.com/b-hermes/gcp_enum/assets/39487743/78806648-4075-4c0e-85ca-2bc5f640090f)
+![Screenshot_7](https://github.com/b-hermes/gcp_enum/assets/39487743/bfcd5c79-4367-4020-92fb-f6501a82f998)
 
 
 # References
