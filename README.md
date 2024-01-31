@@ -35,30 +35,31 @@ options:
 # Tests
 The script performs various tests to list GCP resources, including:
 ```
-    Cloud Storage Buckets
-    Pub/Sub Topics
-    BigQuery
-    Compute Engine Firewall Rules
-    Compute Engine Network Subnets
-    IAM Service Accounts
-    GCP Projects
-    Compute Engine Instance Templates
-    Compute Engine Images
-    Cloud Functions
-    Pub/Sub Subscriptions
-    Compute Engine Backend Services
-    AI Platform Models
-    AI Platform Jobs
-    Cloud Run Managed Services
-    Cloud Run GKE Services
-    Cloud SQL Instances
-    Cloud Spanner Instances
-    Cloud Bigtable Instances
-    Cloud Filestore Instances
-    Kubernetes Engine Clusters
-    Container Images
-    Secrets
-    Cloud KMS Keyrings
+AI Platform Jobs
+AI Platform Models
+BigQuery
+Cloud Bigtable Instances
+Cloud Filestore Instances
+Cloud Functions
+Cloud KMS Keyrings
+Cloud Run GKE Services
+Cloud Run Managed Services
+Cloud Spanner Instances
+Cloud SQL Instances
+Cloud Storage Buckets
+Compute Engine Backend Services
+Compute Engine Firewall Rules
+Compute Engine Images
+Compute Engine Instance Templates
+Compute Engine Network Subnets
+Container Images
+GCP Projects
+IAM Service Accounts
+Kubernetes Engine Clusters
+Pub/Sub Subscriptions
+Pub/Sub topics
+Secrets
+
 ```
 # Examples
 ![Screenshot_7](https://github.com/b-hermes/gcp_enum/assets/39487743/bfcd5c79-4367-4020-92fb-f6501a82f998)
