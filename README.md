@@ -62,7 +62,7 @@ Secrets
 
 ```
 # Examples
-![Screenshot_7](https://github.com/b-hermes/gcp_enum/assets/39487743/bfcd5c79-4367-4020-92fb-f6501a82f998)
+![Screenshot_8](https://github.com/b-hermes/gcp_enum/assets/39487743/da1e7dc7-0b67-4a6c-9d84-3a8ffe1820e4)
 
 
 # References
