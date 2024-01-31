@@ -11,13 +11,12 @@ def list_service_accounts():
         # Run 'gcloud auth list' to list available accounts
         command = "gcloud auth list --format='value(account)'"
         result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
-        
+
         # Extract and print available service accounts
         accounts = result.stdout.strip().split('\n')
         print("Available service accounts:")
         for account in accounts:
             print(account)
-
     except Exception as e:
         print(f"{RED}Failed to list service accounts: {str(e)}{RESET}")
 
@@ -32,19 +31,28 @@ def test_resource_access(resource_type, command, output_file, timeout_seconds):
             # Check if the stderr contains specific authentication error messages
             if "insufficientPermission" in result.stderr:
                 access_status = f"{resource_type} access denied (authentication issue)"
+                access_color = RED
             else:
                 access_status = f"{resource_type} access denied"
-            access_color = RED
+                access_color = RED
 
-        # Print the access status with color and save the full output to the specified file
+        # Always print the access status with color
         print(f"{access_color}{access_status}{RESET}")
-        with open(output_file, "a") as file:
-            file.write(f"{access_status}\n")
-            file.write(result.stdout)
-            file.write("\n")
-            file.write(result.stderr)
-            file.write("\n")
 
+        if access_color == GREEN:
+            # Save hyphens as a divider before the service's output
+            divider = '-' * 40
+            with open(output_file, "a") as file:
+                file.write(f"{divider}\n")
+                file.write(f"{access_color}{access_status}{RESET}\n")
+                file.write(f"{divider}\n")
+
+            # Save the full output to the specified file
+            with open(output_file, "a") as file:
+                file.write(result.stdout)
+                file.write("\n")
+                file.write(result.stderr)
+                file.write("\n")
     except subprocess.TimeoutExpired:
         print(f"{RED}{resource_type} test timed out after {timeout_seconds} seconds{RESET}")
     except Exception as e:
@@ -111,7 +119,6 @@ if __name__ == "__main__":
         "Pub/Sub Subscriptions": "gcloud pubsub subscriptions list",
         "Pub/Sub topics": "gcloud pubsub topics list",
         "Secrets": "gcloud secrets list",
-
     }
 
     for resource_type, command in resource_commands.items():
